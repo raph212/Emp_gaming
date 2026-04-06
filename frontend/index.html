@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Employee Gaming Hub - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-md p-6 glass-effect rounded-xl">
+    <h1 class="text-3xl font-bold mb-4">Employee Gaming Hub</h1>
+    <div id="message" class="mb-4"></div>
+    <input id="displayName" placeholder="Nickname" class="w-full p-3 mb-3 rounded bg-gray-800"/>
+    <input id="password" type="password" placeholder="Password" class="w-full p-3 mb-3 rounded bg-gray-800"/>
+    <div class="flex space-x-2">
+      <button id="loginBtn" class="flex-1 p-3 bg-indigo-600 rounded">Login</button>
+      <button id="registerBtn" class="flex-1 p-3 bg-green-600 rounded">Register</button>
+      <p class="text-center mt-4 text-gray-400">
+  <a href="admin.html" class="underline hover:text-indigo-400">Admin Login</a>
+</p>
+
+    </div>
+    <p class="mt-4 text-sm text-gray-400">Server: <span id="serverStatus">checking...</span></p>
+  </div>
+
+  <script type="module">
+    import { apiRequest } from './js/api.js';
+    const display = document.getElementById('displayName');
+    const pass = document.getElementById('password');
+    const msg = document.getElementById('message');
+    const serverStatus = document.getElementById('serverStatus');
+
+    async function checkServer(){
+      try{
+        const res = await fetch('http://localhost:5000/');
+        if(res.ok) serverStatus.textContent = 'online';
+      }catch(e){ serverStatus.textContent = 'offline'; }
+    }
+    checkServer();
+
+    document.getElementById('registerBtn').addEventListener('click', async ()=>{
+      const d = display.value.trim(), p = pass.value.trim();
+      if(!d||!p) return msg.innerText='Enter both fields';
+      try{
+        const user = await apiRequest('/users/register','POST',{ displayName:d, password:p });
+        if(user.message) msg.innerText = user.message;
+        else { localStorage.setItem('activeUser', JSON.stringify(user)); window.location.href = 'dashboard.html'; }
+      }catch(e){ msg.innerText = 'Register failed'; }
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', async ()=>{
+      const d = display.value.trim(), p = pass.value.trim();
+      if(!d||!p) return msg.innerText='Enter both fields';
+      try{
+        const user = await apiRequest('/users/login','POST',{ displayName:d, password:p });
+        if(user.message) msg.innerText = user.message;
+        else { localStorage.setItem('activeUser', JSON.stringify(user)); window.location.href = 'dashboard.html'; }
+      }catch(e){ msg.innerText = 'Login failed'; }
+    });
+  </script>
+</body>
+</html>

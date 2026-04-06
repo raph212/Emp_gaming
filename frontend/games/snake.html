@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Snake</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../games/common.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+  <div class="p-6 bg-gray-800 rounded max-w-3xl w-full">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-bold">Snake</h1>
+      <a href="../dashboard.html" class="text-indigo-400">Back</a>
+    </div>
+    <div class="flex justify-between mb-4 p-4 bg-white/10 rounded-lg">
+      <p id="game-score" class="font-bold text-lg">Score: 0</p>
+      <p id="game-message" class="font-medium text-sm">Use arrow keys</p>
+    </div>
+    <div class="flex justify-center"><canvas id="snake-canvas" class="game-canvas"></canvas></div>
+    <div class="mt-4"><button id="start-btn" class="px-4 py-2 bg-indigo-600 rounded">Start</button></div>
+  </div>
+
+  <script type="module" src="./snake.js"></script>
+</body>
+</html>

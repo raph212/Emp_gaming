@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin Login — Employee Gaming Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+  <div class="p-8 bg-gray-800 rounded-2xl w-full max-w-md shadow-lg">
+    <h1 class="text-3xl font-bold mb-6 text-center">Admin Login</h1>
+
+    <input id="adminName" placeholder="Admin Username"
+           class="w-full p-3 mb-3 rounded bg-gray-700 text-white" />
+    <input id="adminPass" type="password" placeholder="Password"
+           class="w-full p-3 mb-6 rounded bg-gray-700 text-white" />
+
+    <button id="adminLoginBtn"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 p-3 rounded font-semibold">
+      Login
+    </button>
+
+    <p id="adminMsg" class="mt-4 text-center text-red-400"></p>
+  </div>
+
+<script type="module">
+import { apiRequest } from './js/api.js';
+
+document.getElementById('adminLoginBtn').addEventListener('click', async () => {
+  const displayName = document.getElementById('adminName').value.trim();
+  const password = document.getElementById('adminPass').value.trim();
+
+  if (!displayName || !password) {
+    return document.getElementById('adminMsg').textContent = 'Enter both fields!';
+  }
+
+  const res = await apiRequest('/users/login', 'POST', { displayName, password });
+
+  if (res.message) {
+    document.getElementById('adminMsg').textContent = res.message;
+    return;
+  }
+
+  if (!res.isAdmin) {
+    document.getElementById('adminMsg').textContent = 'Access denied: Not an admin.';
+    return;
+  }
+
+  localStorage.setItem('activeUser', JSON.stringify(res));
+  window.location.href = 'dashboard.html';
+});
+</script>
+</body>
+</html>

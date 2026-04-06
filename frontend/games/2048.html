@@ -1,0 +1,17 @@
+<!doctype html>
+<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>2048</title><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="../games/common.css"></head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+  <div class="p-6 bg-gray-800 rounded max-w-3xl w-full">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-bold">2048</h1>
+      <a href="../dashboard.html" class="text-indigo-400">Back</a>
+    </div>
+    <div class="flex justify-between mb-4 p-4 bg-white/10 rounded-lg">
+      <p id="game-score" class="font-bold text-lg">Score: 0</p>
+      <p id="game-message" class="font-medium text-sm">Use arrow keys</p>
+    </div>
+    <div class="flex justify-center"><div id="board-2048" class="grid grid-cols-4 gap-2 p-4 bg-gray-700 rounded-lg"></div></div>
+  </div>
+
+  <script type="module" src="./2048.js"></script>
+</body></html>

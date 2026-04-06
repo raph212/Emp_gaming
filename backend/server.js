@@ -28,11 +28,6 @@ const start = async () => {
   const userRoutes = (await import("./routes/userRoutes.js")).default;
   const scoreRoutes = (await import("./routes/scoreRoutes.js")).default;
   const leaderboardRoutes = (await import("./routes/leaderboardRoutes.js")).default;
-  const { cleanupScores } = await import("./controllers/scoreController.js");
-
-  try {
-    cleanupScores({},{json:(msg)=>console.log("🧹 Auto Cleanup:", msg)});
-  } catch(e) {}
 
   app.use("/api/coupons", couponRoutes);
   app.use("/api/users", userRoutes);

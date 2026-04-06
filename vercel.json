@@ -1,5 +1,6 @@
 {
-  "rewrites": [{ "source": "/api/(.*)", "destination": "https://emp-gaming-backend.onrender.com/$1" }],
-  "framework": null,
-  "outputDirectory": "frontend"
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://emp-gaming-backend.onrender.com/api/$1" }
+  ],
+  "cleanUrls": true
 }

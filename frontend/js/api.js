@@ -1,4 +1,5 @@
-export const BASE_URL = 'http://localhost:5000/api';
+const isLocal = window.location.hostname === 'localhost';
+export const BASE_URL = isLocal ? 'http://localhost:5000/api' : '/api';
 
 export async function apiRequest(endpoint, method='GET', data=null){
   const opts = { method, headers: { 'Content-Type': 'application/json' } };

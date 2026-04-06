@@ -19,23 +19,25 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => res.send({ status: "ok" }));
+
 const start = async () => {
   await connectDB();
 
-  const couponRoutes = await import("./routes/couponRoutes.js");
-  const userRoutes = await import("./routes/userRoutes.js");
-  const scoreRoutes = await import("./routes/scoreRoutes.js");
-  const leaderboardRoutes = await import("./routes/leaderboardRoutes.js");
+  const couponRoutes = (await import("./routes/couponRoutes.js")).default;
+  const userRoutes = (await import("./routes/userRoutes.js")).default;
+  const scoreRoutes = (await import("./routes/scoreRoutes.js")).default;
+  const leaderboardRoutes = (await import("./routes/leaderboardRoutes.js")).default;
   const { cleanupScores } = await import("./controllers/scoreController.js");
 
-  cleanupScores({},{json:(msg)=>console.log("🧹 Auto Cleanup:", msg)});
+  try {
+    cleanupScores({},{json:(msg)=>console.log("🧹 Auto Cleanup:", msg)});
+  } catch(e) {}
 
-  app.use("/api/coupons", couponRoutes.default);
-  app.use("/api/users", userRoutes.default);
-  app.use("/api/scores", scoreRoutes.default);
-  app.use("/api/leaderboard", leaderboardRoutes.default);
-
-  app.get("/", (req, res) => res.send({ status: "ok" }));
+  app.use("/api/coupons", couponRoutes);
+  app.use("/api/users", userRoutes);
+  app.use("/api/scores", scoreRoutes);
+  app.use("/api/leaderboard", leaderboardRoutes);
 
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

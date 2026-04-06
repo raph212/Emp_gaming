@@ -16,7 +16,7 @@ const connectDB = async () => {
 };
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => res.send({ status: "ok" }));
